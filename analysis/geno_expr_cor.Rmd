@@ -23,7 +23,35 @@ colnames(df) <- c("sample","Diag","Genotype","eQTL_diagnosis","PICALM_expression
 
 df <- df[,1:5]
 
-DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Individual level PICALM expression'),options = list(pageLength = 10) )
-
+DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Individual level PICALM expression'),options = list(pageLength = 5) )
 ```
+
+
+# Differential expression analysis of PICALM
+
+
+# Genotype-expression correlation of PICALM
+
+1. The dataset was divided into three groups:
+
+- All samples
+- Alzheimer Disease (AD) samples
+- Non-Alzheimer Disease (nonAD) samples
+
+2. Correlation Analysis:
+
+For each group (all samples, AD, and nonAD), the correlation between PICALM expression and genotype was calculated using
+
+- Pearson correlation test: measures the strength and direction of the linear relationship between two continuous variables
+- ANOVA: is used to compare the means of three or more groups to see if at least one group mean is different from the others
+
+
+## Pearson correlation test
+
+
+cor.test().
+Additionally, summary statistics (mean, standard deviation, and count) for PICALM expression in each genotype group were computed.
+
+
+
 
