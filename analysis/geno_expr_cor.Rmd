@@ -8,6 +8,11 @@ output:
     toc: true
 ---
 
+```{r warning=F, message=F}
+library(ggplot2)
+library(dplyr)
+```
+
 # Introduction
 
 We address the one of the comment from the reviewer here. 
@@ -23,16 +28,99 @@ colnames(df) <- c("sample","Diag","Genotype","eQTL_diagnosis","PICALM_expression
 
 df <- df[,1:5]
 
+df <- df %>%
+  mutate(G_dosage = case_when(
+    Genotype == "AA" ~ 0,
+    Genotype == "AG" ~ 1,
+    Genotype == "GG" ~ 2,
+    TRUE ~ NA_real_
+  ))
+
 DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Individual level PICALM expression'),options = list(pageLength = 5) )
 ```
 
 
 # Differential expression analysis of PICALM
 
+1. The dataset was divided into 2 groups, according to the `eQTL_diagnosis` column:
+
+- Alzheimer Disease (AD) samples
+- Non-Alzheimer Disease (nonAD) samples
+
+The black triangle represents the mean value of expressions in each group
+
+```{r warning=F, message=F}
+mean_values <- aggregate(PICALM_expression ~ eQTL_diagnosis, data = df, FUN = mean)
+
+# Plot with mean values added
+ggplot(df, aes(x = eQTL_diagnosis, y = PICALM_expression, color = eQTL_diagnosis)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2) +
+  geom_point(data = mean_values, aes(x = eQTL_diagnosis, y = PICALM_expression), 
+             color = "black", size = 3, shape = 17) +  # Add mean points
+  ggtitle("PICALM Expression by Group") +
+  xlab("Genotype") +
+  ylab("PICALM Expression") +
+  theme_minimal()
+```
+
+
+2. Since the expression in AD samples is normally distributed
+
+```{r warning=F, message=F}
+hist(df$PICALM_expression[df$eQTL_diagnosis =="AD"], main = "Distribution of PICALM_expression in AD samples")
+```
+
+the significance can be assessed by 
+
+## two sample t-test
+
+```{r warning=F, message=F}
+t_test_result <- t.test(PICALM_expression ~ eQTL_diagnosis, data = df)
+print(t_test_result)
+
+ggplot(df, aes(x = eQTL_diagnosis, y = PICALM_expression, color = eQTL_diagnosis)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2) +
+  ggtitle("PICALM Expression by Group") +
+  xlab("Genotype") +
+  ylab("PICALM Expression") +
+  theme_minimal()
+
+
+```
+
+## ANNOVA
+
+```{r warning=F, message=F}
+anova_result <- aov(PICALM_expression ~ eQTL_diagnosis, data = df)
+summary(anova_result)
+```
+
+## Linear regression
+
+we tested PICALM_expression ~ eQTL_diagnosis
+
+```{r warning=F, message=F}
+model <- lm(PICALM_expression ~ eQTL_diagnosis, data = df)
+summary(model)
+```
+
+
+3. Since mean value testing didn't perform well, we used other testing stats to test the median values
+
+## Mann-Whitney U Test (Wilcoxon Rank-Sum Test)
+
+The Mann-Whitney U test compares the median values of two independent groups. It assesses whether values in one group tend to be larger or smaller than values in another group.
+
+```{r warning=F, message=F}
+wilcox.test(PICALM_expression ~ eQTL_diagnosis, data = df)
+```
+
 
 # Genotype-expression correlation of PICALM
 
-1. The dataset was divided into three groups:
+1. The dataset was divided into three groups, according to the `eQTL_diagnosis` column:
 
 - All samples
 - Alzheimer Disease (AD) samples
@@ -42,15 +130,61 @@ DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left;
 
 For each group (all samples, AD, and nonAD), the correlation between PICALM expression and genotype was calculated using
 
-- Pearson correlation test: measures the strength and direction of the linear relationship between two continuous variables
-- ANOVA: is used to compare the means of three or more groups to see if at least one group mean is different from the others
+- Linear regression: Expr ~ genotype, we used G dosage as genotype
 
+```{r warning=F, message=F}
 
-## Pearson correlation test
+df_ad <- df %>% dplyr::filter(eQTL_diagnosis == "AD")
+df_nonad <- df %>% dplyr::filter(eQTL_diagnosis != "AD")
 
+print("The group for all samples")
+model_all <- lm(PICALM_expression ~ G_dosage, data = df)
+summary(model_all)
+sprintf("the p-value is %s", round(summary(model_all)$coefficients[2,4], digits = 4))
 
-cor.test().
-Additionally, summary statistics (mean, standard deviation, and count) for PICALM expression in each genotype group were computed.
+print("The group for AD samples")
+model_ad <- lm(PICALM_expression ~ G_dosage, data = df_ad)
+summary(model_ad)
+sprintf("the p-value is %s", round(summary(model_ad)$coefficients[2,4], digits = 4))
+
+print("The group for non-AD samples")
+model_nonad <- lm(PICALM_expression ~ G_dosage, data = df_nonad)
+summary(model_nonad)
+sprintf("the p-value is %s", round(summary(model_nonad)$coefficients[2,4], digits = 4))
+
+# Convert G_dosage back to factor for plotting
+df <- df %>% mutate(Genotype = factor(G_dosage, levels = c(0, 1, 2), labels = c("AA", "AG", "GG")))
+df_ad <- df_ad %>% mutate(Genotype = factor(G_dosage, levels = c(0, 1, 2), labels = c("AA", "AG", "GG")))
+df_nonad <- df_nonad %>% mutate(Genotype = factor(G_dosage, levels = c(0, 1, 2), labels = c("AA", "AG", "GG")))
+
+# Plot for all samples
+ggplot(df, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2) +
+  ggtitle("PICALM Expression by Genotype (All Samples)") +
+  xlab("Genotype") +
+  ylab("PICALM Expression")+
+  theme_minimal()
+
+# Plot for AD samples
+ggplot(df_ad, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2) +
+  ggtitle("PICALM Expression by Genotype (AD Samples)") +
+  xlab("Genotype") +
+  ylab("PICALM Expression")+
+  theme_minimal()
+
+# Plot for non-AD samples
+ggplot(df_nonad, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2) +
+  ggtitle("PICALM Expression by Genotype (Non-AD Samples)") +
+  xlab("Genotype") +
+  ylab("PICALM Expression") +
+  theme_minimal()
+
+```
 
 
 
