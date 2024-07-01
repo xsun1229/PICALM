@@ -411,7 +411,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-06-28
+<strong>Last updated:</strong> 2024-07-01
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -545,15 +545,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229PICALMtree4fbceb130ae35dcebb7c13bb488a304b72b5201etargetblank4fbceb1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229PICALMtreec90c074665018319167eafe05d903bdf8c5027f8targetblankc90c074a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/PICALM/tree/4fbceb130ae35dcebb7c13bb488a304b72b5201e" target="_blank">4fbceb1</a>
+<a href="https://github.com/xsun1229/PICALM/tree/c90c074665018319167eafe05d903bdf8c5027f8" target="_blank">c90c074</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229PICALMtree4fbceb130ae35dcebb7c13bb488a304b72b5201etargetblank4fbceb1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229PICALMtreec90c074665018319167eafe05d903bdf8c5027f8targetblankc90c074a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -563,7 +563,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/PICALM/tree/4fbceb130ae35dcebb7c13bb488a304b72b5201e" target="_blank">4fbceb1</a>.
+<a href="https://github.com/xsun1229/PICALM/tree/c90c074665018319167eafe05d903bdf8c5027f8" target="_blank">c90c074</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -629,6 +629,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/xsun1229/PICALM/blob/c90c074665018319167eafe05d903bdf8c5027f8/analysis/geno_expr_cor.Rmd" target="_blank">c90c074</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-06-29
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/PICALM/c90c074665018319167eafe05d903bdf8c5027f8/docs/geno_expr_cor.html" target="_blank">c90c074</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-06-29
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/xsun1229/PICALM/blob/fa92d8cc7a7543b68b9504caa8f9f8cb12b9bee2/analysis/geno_expr_cor.Rmd" target="_blank">fa92d8c</a>
 </td>
 <td>
@@ -687,15 +721,15 @@ library(dplyr)</code></pre>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>We address the one of the comment from the reviewer here.</p>
-<p>1.postmortem brain microglia AD vs. nonAD differential expression
-analysis of PICALM</p>
-<ol start="2" style="list-style-type: decimal">
-<li>genotype-expression correlation of PICALM.</li>
+<ol style="list-style-type: decimal">
+<li><p>postmortem brain microglia AD vs. nonAD differential expression
+analysis of PICALM</p></li>
+<li><p>genotype-expression correlation of PICALM.</p></li>
 </ol>
-<pre class="r"><code>df &lt;- readxl::read_excel(&quot;/project2/xinhe/xsun/psych_analysis/2.review/PICALM_CPM_df_2_plot_AD_control_genotype_NG2022.xlsx&quot;,sheet=3)
-colnames(df) &lt;- c(&quot;sample&quot;,&quot;Diag&quot;,&quot;Genotype&quot;,&quot;eQTL_diagnosis&quot;,&quot;PICALM_expression&quot;,&quot;average_expr_group&quot;)
+<pre class="r"><code>df &lt;- readxl::read_excel(&quot;/project2/xinhe/xsun/psych_analysis/2.review/PICALM_CPM_df_2_plot_AD_control_genotype_NG2022-JD2.xlsx&quot;,sheet=3)
+df &lt;- df[,1:9]
+colnames(df) &lt;- c(&quot;sample&quot;,&quot;Diag&quot;,&quot;Genotype&quot;,&quot;eQTL_diagnosis&quot;,&quot;PICALM_expression&quot;,&quot;age&quot;,&quot;race&quot;,&quot;sex&quot;,&quot;PMI_mins&quot;)
 
-df &lt;- df[,1:5]
 
 df &lt;- df %&gt;%
   mutate(G_dosage = case_when(
@@ -707,11 +741,13 @@ df &lt;- df %&gt;%
 
 DT::datatable(df,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Individual level PICALM expression&#39;),options = list(pageLength = 5) )</code></pre>
 <div id="htmlwidget-212d6734bb3be6d86890" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-212d6734bb3be6d86890">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Individual level PICALM expression<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69"],["FM_010","FM_062","FM_024","FM_077","FM_030","FM_104","FM_078","FM_006","FM_048","FM_069","FM_046","FM_080","FM_054","FM_089","FM_092","FM_022","FM_102","FM_020","FM_064","FM_032","FM_086","FM_091","FM_002","FM_021","FM_095","FM_034","FM_007","FM_088","FM_083","FM_108","FM_059","FM_040","FM_005","FM_094","FM_028","FM_009","FM_050","FM_012","FM_033","FM_014","FM_081","FM_037","FM_087","FM_049","FM_038","FM_066","FM_103","FM_041","FM_073","FM_053","FM_058","FM_004","FM_105","FM_045","FM_008","FM_109","FM_098","FM_065","FM_015","FM_084","FM_076","FM_044","FM_099","FM_085","FM_093","FM_018","FM_051","FM_082","FM_001"],["Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","dementia","dementia","dementia","dementia","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control"],["GG","GG","GG","AG","GG","GG","GG","GG","GG","GG","AG","GG","GG","GG","AG","GG","AA","GG","AA","GG","AA","AG","GG","AA","AA","AG","GG","AG","AG","AG","AG","AG","AG","AG","GG","AG","AG","AA","AG","AG","GG","GG","GG","GG","GG","AG","GG","GG","AG","GG","GG","AG","AG","AG","GG","AA","AA","GG","AA","AG","AG","AG","GG","AA","AG","GG","AG","GG","GG"],["AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control"],[186.278052888828,208.086441242281,236.844722944341,256.346661073869,258.860603825908,276.139942674349,302.842338644568,313.388049291673,317.909733094421,323.000616146664,325.897809038708,328.542839807512,329.338818465779,335.429678105231,342.05420149336,359.366896372907,361.509955275409,361.717492572872,368.537586469047,371.988759693822,372.360843005822,374.563793870952,375.776381964953,376.918580638926,378.766154016086,379.767891952099,380.005070015464,380.463408019377,383.231062279911,384.003001831946,391.668265253079,394.80821642996,399.649172101082,411.748232277333,419.985293938525,436.216695654719,554.769567140323,577.574336692577,289.414235601814,331.252581571705,368.032262046405,419.553148763201,215.800516780814,259.648338239639,263.847335460793,269.231672431472,274.588348750972,276.79055382195,287.198955946775,292.57999874822,295.290103597087,296.183897201743,300.585582724645,308.143452081476,312.804620437753,317.26864782541,339.692657671785,350.67275987153,355.640241278102,366.260085613719,377.432686439113,396.846748549868,421.374472371175,442.69485853767,452.166363305057,458.813992909122,558.548299716376,611.656876024176,713.654810736527],[2,2,2,1,2,2,2,2,2,2,1,2,2,2,1,2,0,2,0,2,0,1,2,0,0,1,2,1,1,1,1,1,1,1,2,1,1,0,1,1,2,2,2,2,2,1,2,2,1,2,2,1,1,1,2,0,0,2,0,1,1,1,2,0,1,2,1,2,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>sample<\/th>\n      <th>Diag<\/th>\n      <th>Genotype<\/th>\n      <th>eQTL_diagnosis<\/th>\n      <th>PICALM_expression<\/th>\n      <th>G_dosage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-212d6734bb3be6d86890">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Individual level PICALM expression<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69"],["FM_010","FM_062","FM_024","FM_077","FM_030","FM_104","FM_078","FM_006","FM_048","FM_069","FM_046","FM_080","FM_054","FM_089","FM_092","FM_022","FM_102","FM_020","FM_064","FM_032","FM_086","FM_091","FM_002","FM_021","FM_095","FM_034","FM_007","FM_088","FM_083","FM_108","FM_059","FM_040","FM_005","FM_094","FM_028","FM_009","FM_050","FM_012","FM_033","FM_014","FM_081","FM_037","FM_087","FM_049","FM_038","FM_066","FM_103","FM_041","FM_073","FM_053","FM_058","FM_004","FM_105","FM_045","FM_008","FM_109","FM_098","FM_065","FM_015","FM_084","FM_076","FM_044","FM_099","FM_085","FM_093","FM_018","FM_051","FM_082","FM_001"],["Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","Alzheimer_Disease","dementia","dementia","dementia","dementia","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control"],["GG","GG","GG","AG","GG","GG","GG","GG","GG","GG","AG","GG","GG","GG","AG","GG","AA","GG","AA","GG","AA","AG","GG","AA","AA","AG","GG","AG","AG","AG","AG","AG","AG","AG","GG","AG","AG","AA","AG","AG","GG","GG","GG","GG","GG","AG","GG","GG","AG","GG","GG","AG","AG","AG","GG","AA","AA","GG","AA","AG","AG","AG","GG","AA","AG","GG","AG","GG","GG"],["AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","AD","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control","control"],[186.278052888828,208.086441242281,236.844722944341,256.346661073869,258.860603825908,276.139942674349,302.842338644568,313.388049291673,317.909733094421,323.000616146664,325.897809038708,328.542839807512,329.338818465779,335.429678105231,342.05420149336,359.366896372907,361.509955275409,361.717492572872,368.537586469047,371.988759693822,372.360843005822,374.563793870952,375.776381964953,376.918580638926,378.766154016086,379.767891952099,380.005070015464,380.463408019377,383.231062279911,384.003001831946,391.668265253079,394.80821642996,399.649172101082,411.748232277333,419.985293938525,436.216695654719,554.769567140323,577.574336692577,289.414235601814,331.252581571705,368.032262046405,419.553148763201,215.800516780814,259.648338239639,263.847335460793,269.231672431472,274.588348750972,276.79055382195,287.198955946775,292.57999874822,295.290103597087,296.183897201743,300.585582724645,308.143452081476,312.804620437753,317.26864782541,339.692657671785,350.67275987153,355.640241278102,366.260085613719,377.432686439113,396.846748549868,421.374472371175,442.69485853767,452.166363305057,458.813992909122,558.548299716376,611.656876024176,713.654810736527],[81,67,85,80,68,81,75,95,76,90,58,73,77,85,95,95,95,76,76,82,95,86,74,81,72,90,86,80,89,86,86,67,87,56,95,89,71,95,64,90,74,72,95,67,50,79,66,54,89,66,59,95,87,95,95,72,62,73,95,95,42,95,58,95,70,95,59,73,85],["White","Black","Black","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","White","Black","Black","White","Asian","Black","White","White","White","White","White","White","White","White","White","White","White","White","Black","White","Black","White","White","White","White","White","White"],["Male","Male","Female","Male","Male","Female","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Female","Female","Male","Female","Female","Male","Male","Male","Female","Female","Female","Male","Female","Female","Male","Male","Female","Female","Female","Male","Female","Male","Male","Male","Male","Male","Female","Male","Male","Female","Male","Male","Female","Male","Male","Male","Female","Female","Female","Female","Female","Male","Female","Male"],[1637,390,1278,1048,690,1185,306,558,362,457,295,308,1276,735,395,315,293,229,870,840,318,296,270,375,316,1050,404,398,260,263,376,310,1159,1234,590,1140,720,345,1470,472,388,550,248,1368,1500,610,1725,1161,665,1390,1171,357,925,475,535,407,857,1257,485,605,360,590,1355,357,1152,360,964,1332,440],[2,2,2,1,2,2,2,2,2,2,1,2,2,2,1,2,0,2,0,2,0,1,2,0,0,1,2,1,1,1,1,1,1,1,2,1,1,0,1,1,2,2,2,2,2,1,2,2,1,2,2,1,1,1,2,0,0,2,0,1,1,1,2,0,1,2,1,2,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>sample<\/th>\n      <th>Diag<\/th>\n      <th>Genotype<\/th>\n      <th>eQTL_diagnosis<\/th>\n      <th>PICALM_expression<\/th>\n      <th>age<\/th>\n      <th>race<\/th>\n      <th>sex<\/th>\n      <th>PMI_mins<\/th>\n      <th>G_dosage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[5,6,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="differential-expression-analysis-of-picalm"
+<div
+id="differential-expression-analysis-of-picalm-without-adjusting-for-confounders"
 class="section level1">
-<h1>Differential expression analysis of PICALM</h1>
+<h1>Differential expression analysis of PICALM – without adjusting for
+confounders</h1>
 <ol style="list-style-type: decimal">
 <li>The dataset was divided into 2 groups, according to the
 <code>eQTL_diagnosis</code> column:</li>
@@ -735,11 +771,85 @@ ggplot(df, aes(x = eQTL_diagnosis, y = PICALM_expression, color = eQTL_diagnosis
   ylab(&quot;PICALM Expression&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/PICALM/blob/c90c074665018319167eafe05d903bdf8c5027f8/docs/figure/geno_expr_cor.Rmd/unnamed-chunk-3-1.png" target="_blank">c90c074</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-06-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ol start="2" style="list-style-type: decimal">
 <li>Since the expression in AD samples is normally distributed</li>
 </ol>
 <pre class="r"><code>hist(df$PICALM_expression[df$eQTL_diagnosis ==&quot;AD&quot;], main = &quot;Distribution of PICALM_expression in AD samples&quot;)</code></pre>
 <p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/PICALM/blob/c90c074665018319167eafe05d903bdf8c5027f8/docs/figure/geno_expr_cor.Rmd/unnamed-chunk-4-1.png" target="_blank">c90c074</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-06-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>the significance can be assessed by</p>
 <div id="two-sample-t-test" class="section level2">
 <h2>two sample t-test</h2>
@@ -764,9 +874,46 @@ sample estimates:
   ylab(&quot;PICALM Expression&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/PICALM/blob/c90c074665018319167eafe05d903bdf8c5027f8/docs/figure/geno_expr_cor.Rmd/unnamed-chunk-5-1.png" target="_blank">c90c074</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-06-29
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="annova" class="section level2">
-<h2>ANNOVA</h2>
+</div>
+</div>
+<div id="anova" class="section level2">
+<h2>ANOVA</h2>
 <pre class="r"><code>anova_result &lt;- aov(PICALM_expression ~ eQTL_diagnosis, data = df)
 summary(anova_result)</code></pre>
 <pre><code>               Df Sum Sq Mean Sq F value Pr(&gt;F)
@@ -816,9 +963,62 @@ W = 631, p-value = 0.4375
 alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 </div>
-<div id="genotype-expression-correlation-of-picalm"
+<div
+id="differential-expression-analysis-of-picalm-adjusting-for-confounders"
 class="section level1">
-<h1>Genotype-expression correlation of PICALM</h1>
+<h1>Differential expression analysis of PICALM – adjusting for
+confounders</h1>
+<div id="ancova" class="section level2">
+<h2>ANCOVA</h2>
+<pre class="r"><code>anova_result &lt;- aov(PICALM_expression ~ eQTL_diagnosis + age + race + sex + PMI_mins, data = df)
+summary(anova_result)</code></pre>
+<pre><code>               Df Sum Sq Mean Sq F value Pr(&gt;F)  
+eQTL_diagnosis  1    977     977   0.123 0.7267  
+age             1   4124    4124   0.521 0.4733  
+race            2  48671   24335   3.072 0.0535 .
+sex             1  16895   16895   2.133 0.1492  
+PMI_mins        1  11317   11317   1.429 0.2366  
+Residuals      62 491171    7922                 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="linear-regression-1" class="section level2">
+<h2>Linear regression</h2>
+<p>we tested PICALM_expression ~ eQTL_diagnosis + age + race + sex +
+PMI_mins</p>
+<pre class="r"><code>model &lt;- lm(PICALM_expression ~ eQTL_diagnosis + age + race + sex + PMI_mins, data = df)
+summary(model)</code></pre>
+<pre><code>
+Call:
+lm(formula = PICALM_expression ~ eQTL_diagnosis + age + race + 
+    sex + PMI_mins, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-185.80  -47.38   -8.72   26.38  343.25 
+
+Coefficients:
+                       Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)           435.83298  140.67121   3.098  0.00292 **
+eQTL_diagnosiscontrol  28.83681   23.17886   1.244  0.21815   
+age                    -1.36187    1.04209  -1.307  0.19608   
+raceBlack             -22.23286   98.81311  -0.225  0.82272   
+raceWhite              75.26781   95.94803   0.784  0.43575   
+sexMale               -37.88009   23.18752  -1.634  0.10740   
+PMI_mins               -0.03613    0.03023  -1.195  0.23655   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 89.01 on 62 degrees of freedom
+Multiple R-squared:  0.143, Adjusted R-squared:  0.06011 
+F-statistic: 1.725 on 6 and 62 DF,  p-value: 0.1301</code></pre>
+</div>
+</div>
+<div
+id="genotype-expression-correlation-of-picalm-without-adjusting-for-confounders"
+class="section level1">
+<h1>Genotype-expression correlation of PICALM – without adjusting for
+confounders</h1>
 <ol style="list-style-type: decimal">
 <li>The dataset was divided into three groups, according to the
 <code>eQTL_diagnosis</code> column:</li>
@@ -925,7 +1125,7 @@ ggplot(df, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
   xlab(&quot;Genotype&quot;) +
   ylab(&quot;PICALM Expression&quot;)+
   theme_minimal()</code></pre>
-<p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># Plot for AD samples
 ggplot(df_ad, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
   geom_boxplot() +
@@ -934,7 +1134,7 @@ ggplot(df_ad, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
   xlab(&quot;Genotype&quot;) +
   ylab(&quot;PICALM Expression&quot;)+
   theme_minimal()</code></pre>
-<p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># Plot for non-AD samples
 ggplot(df_nonad, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
   geom_boxplot() +
@@ -943,7 +1143,121 @@ ggplot(df_nonad, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
   xlab(&quot;Genotype&quot;) +
   ylab(&quot;PICALM Expression&quot;) +
   theme_minimal()</code></pre>
-<p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/geno_expr_cor.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div
+id="genotype-expression-correlation-of-picalm-adjusting-for-confounders"
+class="section level1">
+<h1>Genotype-expression correlation of PICALM – adjusting for
+confounders</h1>
+<ol style="list-style-type: decimal">
+<li>The dataset was divided into three groups, according to the
+<code>eQTL_diagnosis</code> column:</li>
+</ol>
+<ul>
+<li>All samples</li>
+<li>Alzheimer Disease (AD) samples</li>
+<li>Non-Alzheimer Disease (nonAD) samples</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Correlation Analysis:</li>
+</ol>
+<p>For each group (all samples, AD, and nonAD), the correlation between
+PICALM expression and genotype was calculated using</p>
+<ul>
+<li>Linear regression: Expr ~ genotype + age + race + sex + PMI_mins, we
+used G dosage as genotype</li>
+</ul>
+<pre class="r"><code>df_ad &lt;- df %&gt;% dplyr::filter(eQTL_diagnosis == &quot;AD&quot;)
+df_nonad &lt;- df %&gt;% dplyr::filter(eQTL_diagnosis != &quot;AD&quot;)
+
+print(&quot;The group for all samples&quot;)</code></pre>
+<pre><code>[1] &quot;The group for all samples&quot;</code></pre>
+<pre class="r"><code>model_all &lt;- lm(PICALM_expression ~ G_dosage + age + race + sex + PMI_mins, data = df)
+summary(model_all)</code></pre>
+<pre><code>
+Call:
+lm(formula = PICALM_expression ~ G_dosage + age + race + sex + 
+    PMI_mins, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-148.90  -42.35  -12.95   18.77  377.51 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept) 476.49598  142.66707   3.340  0.00142 **
+G_dosage    -17.90426   15.92886  -1.124  0.26534   
+age          -1.32814    1.04385  -1.272  0.20800   
+raceBlack   -24.41321   99.00733  -0.247  0.80605   
+raceWhite    56.10486   95.88688   0.585  0.56059   
+sexMale     -37.24183   23.21615  -1.604  0.11377   
+PMI_mins     -0.02388    0.03037  -0.786  0.43458   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 89.21 on 62 degrees of freedom
+Multiple R-squared:  0.1392,    Adjusted R-squared:  0.05588 
+F-statistic: 1.671 on 6 and 62 DF,  p-value: 0.1432</code></pre>
+<pre class="r"><code>sprintf(&quot;the p-value is %s&quot;, round(summary(model_all)$coefficients[2,4], digits = 4))</code></pre>
+<pre><code>[1] &quot;the p-value is 0.2653&quot;</code></pre>
+<pre class="r"><code>print(&quot;The group for AD samples&quot;)</code></pre>
+<pre><code>[1] &quot;The group for AD samples&quot;</code></pre>
+<pre class="r"><code>model_ad &lt;- lm(PICALM_expression ~ G_dosage + age + race + sex + PMI_mins, data = df_ad)
+summary(model_ad)</code></pre>
+<pre><code>
+Call:
+lm(formula = PICALM_expression ~ G_dosage + age + race + sex + 
+    PMI_mins, data = df_ad)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-90.19 -31.08 -10.75  26.57 205.18 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept) 347.52614   99.63405   3.488   0.0013 **
+G_dosage    -32.34817   13.72745  -2.356   0.0240 * 
+age          -0.08122    0.98659  -0.082   0.9348   
+raceWhite   107.25443   45.68803   2.348   0.0245 * 
+sexMale     -35.70700   20.16142  -1.771   0.0850 . 
+PMI_mins     -0.04357    0.02497  -1.745   0.0895 . 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 61.21 on 36 degrees of freedom
+Multiple R-squared:  0.3943,    Adjusted R-squared:  0.3102 
+F-statistic: 4.687 on 5 and 36 DF,  p-value: 0.002131</code></pre>
+<pre class="r"><code>sprintf(&quot;the p-value is %s&quot;, round(summary(model_ad)$coefficients[2,4], digits = 4))</code></pre>
+<pre><code>[1] &quot;the p-value is 0.024&quot;</code></pre>
+<pre class="r"><code>print(&quot;The group for non-AD samples&quot;)</code></pre>
+<pre><code>[1] &quot;The group for non-AD samples&quot;</code></pre>
+<pre class="r"><code>model_nonad &lt;- lm(PICALM_expression ~ G_dosage + age + race + sex + PMI_mins, data = df_nonad)
+summary(model_nonad)</code></pre>
+<pre><code>
+Call:
+lm(formula = PICALM_expression ~ G_dosage + age + race + sex + 
+    PMI_mins, data = df_nonad)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-183.10  -61.50  -37.42   45.76  322.26 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept) 493.99503  320.16627   1.543    0.139
+G_dosage     23.08454   41.37734   0.558    0.583
+age          -2.49798    2.54772  -0.980    0.339
+raceBlack   -14.84829  157.31409  -0.094    0.926
+raceWhite   107.08283  146.57463   0.731    0.474
+sexMale     -23.94406   55.40844  -0.432    0.670
+PMI_mins     -0.04450    0.08901  -0.500    0.623
+
+Residual standard error: 124.2 on 20 degrees of freedom
+Multiple R-squared:  0.1178,    Adjusted R-squared:  -0.1469 
+F-statistic: 0.4449 on 6 and 20 DF,  p-value: 0.84</code></pre>
+<pre class="r"><code>sprintf(&quot;the p-value is %s&quot;, round(summary(model_nonad)$coefficients[2,4], digits = 4))</code></pre>
+<pre><code>[1] &quot;the p-value is 0.5831&quot;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

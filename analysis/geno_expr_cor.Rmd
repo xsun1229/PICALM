@@ -17,16 +17,16 @@ library(dplyr)
 
 We address the one of the comment from the reviewer here. 
 
-1.postmortem brain microglia AD vs. nonAD differential expression analysis of PICALM
+1. postmortem brain microglia AD vs. nonAD differential expression analysis of PICALM
 
 2. genotype-expression correlation of PICALM. 
 
 ```{r warning=F, message=F}
 
-df <- readxl::read_excel("/project2/xinhe/xsun/psych_analysis/2.review/PICALM_CPM_df_2_plot_AD_control_genotype_NG2022.xlsx",sheet=3)
-colnames(df) <- c("sample","Diag","Genotype","eQTL_diagnosis","PICALM_expression","average_expr_group")
+df <- readxl::read_excel("/project2/xinhe/xsun/psych_analysis/2.review/PICALM_CPM_df_2_plot_AD_control_genotype_NG2022-JD2.xlsx",sheet=3)
+df <- df[,1:9]
+colnames(df) <- c("sample","Diag","Genotype","eQTL_diagnosis","PICALM_expression","age","race","sex","PMI_mins")
 
-df <- df[,1:5]
 
 df <- df %>%
   mutate(G_dosage = case_when(
@@ -40,7 +40,7 @@ DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left;
 ```
 
 
-# Differential expression analysis of PICALM
+# Differential expression analysis of PICALM -- without adjusting for confounders
 
 1. The dataset was divided into 2 groups, according to the `eQTL_diagnosis` column:
 
@@ -90,7 +90,7 @@ ggplot(df, aes(x = eQTL_diagnosis, y = PICALM_expression, color = eQTL_diagnosis
 
 ```
 
-## ANNOVA
+## ANOVA
 
 ```{r warning=F, message=F}
 anova_result <- aov(PICALM_expression ~ eQTL_diagnosis, data = df)
@@ -118,7 +118,27 @@ wilcox.test(PICALM_expression ~ eQTL_diagnosis, data = df)
 ```
 
 
-# Genotype-expression correlation of PICALM
+
+# Differential expression analysis of PICALM -- adjusting for confounders
+
+## ANCOVA
+
+```{r warning=F, message=F}
+anova_result <- aov(PICALM_expression ~ eQTL_diagnosis + age + race + sex + PMI_mins, data = df)
+summary(anova_result)
+```
+
+## Linear regression
+
+we tested PICALM_expression ~ eQTL_diagnosis + age + race + sex + PMI_mins
+
+```{r warning=F, message=F}
+model <- lm(PICALM_expression ~ eQTL_diagnosis + age + race + sex + PMI_mins, data = df)
+summary(model)
+```
+
+
+# Genotype-expression correlation of PICALM -- without adjusting for confounders
 
 1. The dataset was divided into three groups, according to the `eQTL_diagnosis` column:
 
@@ -183,6 +203,44 @@ ggplot(df_nonad, aes(x = Genotype, y = PICALM_expression, color = Genotype)) +
   xlab("Genotype") +
   ylab("PICALM Expression") +
   theme_minimal()
+
+```
+
+
+# Genotype-expression correlation of PICALM -- adjusting for confounders
+
+1. The dataset was divided into three groups, according to the `eQTL_diagnosis` column:
+
+- All samples
+- Alzheimer Disease (AD) samples
+- Non-Alzheimer Disease (nonAD) samples
+
+2. Correlation Analysis:
+
+For each group (all samples, AD, and nonAD), the correlation between PICALM expression and genotype was calculated using
+
+- Linear regression: Expr ~ genotype + age + race + sex + PMI_mins, we used G dosage as genotype
+
+```{r warning=F, message=F}
+
+df_ad <- df %>% dplyr::filter(eQTL_diagnosis == "AD")
+df_nonad <- df %>% dplyr::filter(eQTL_diagnosis != "AD")
+
+print("The group for all samples")
+model_all <- lm(PICALM_expression ~ G_dosage + age + race + sex + PMI_mins, data = df)
+summary(model_all)
+sprintf("the p-value is %s", round(summary(model_all)$coefficients[2,4], digits = 4))
+
+print("The group for AD samples")
+model_ad <- lm(PICALM_expression ~ G_dosage + age + race + sex + PMI_mins, data = df_ad)
+summary(model_ad)
+sprintf("the p-value is %s", round(summary(model_ad)$coefficients[2,4], digits = 4))
+
+print("The group for non-AD samples")
+model_nonad <- lm(PICALM_expression ~ G_dosage + age + race + sex + PMI_mins, data = df_nonad)
+summary(model_nonad)
+sprintf("the p-value is %s", round(summary(model_nonad)$coefficients[2,4], digits = 4))
+
 
 ```
 
